@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { creerExemple } from '../db/exemple'
+import { chargerMonProgramme } from '../db/mon-programme'
 import type { Programme, Seance } from '../db/schema'
 import { depot } from '../donnees'
 import { cibleCompacte, dateRelative, Entete } from './commun'
@@ -65,8 +65,8 @@ export function Accueil(props: { onDemarrer: (programmeId: string) => void; alle
             <button className="bouton principal" onClick={() => props.allerA('exercices')}>
               Ajouter un exercice
             </button>
-            <button className="bouton" onClick={() => void creerExemple(depot)}>
-              Créer un exemple Push / Pull
+            <button className="bouton" onClick={() => void chargerMonProgramme(depot)}>
+              Charger mon programme Hevy
             </button>
           </div>
         </div>

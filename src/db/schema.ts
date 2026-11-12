@@ -116,6 +116,8 @@ export interface Reglages {
   niveau: Niveau
   objectif: Objectif
   parametres: ParametresMoteur
+  /** Programmes déjà importés, pour ne pas les recharger au démarrage. */
+  imports?: string[]
 }
 
 export class BaseMuscu extends Dexie {

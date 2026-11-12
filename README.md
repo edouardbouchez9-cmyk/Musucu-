@@ -15,6 +15,10 @@ fonctionne hors ligne et garde tes données sur ton téléphone.
 - L'onglet Progrès affiche la courbe du 1RM estimé et l'historique des décisions de l'app.
 - L'onglet Réglages permet de modifier les seuils des règles et d'exporter tes données.
 
+Au premier lancement, l'app charge ton programme Hevy (7 exercices Push, 7 exercices Pull) avec tes dernières charges
+comme point de départ. Le fichier `src/db/mon-programme.ts` contient ces données ; **Réglages > Recharger mon
+programme** les remet en place.
+
 Règles en place : R1 (double progression) et R5 (1RM estimé). Les règles R2 à R10 viendront une par une.
 
 ## Installer l'app sur ton iPhone

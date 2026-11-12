@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useState } from 'react'
-import { creerExemple } from '../db/exemple'
+import { chargerMonProgramme } from '../db/mon-programme'
 import type { Sauvegarde } from '../db/depot'
 import type { Reglages as ReglagesEnregistres } from '../db/schema'
 import { completerParametres, PARAMETRES_PAR_DEFAUT, type ParametresMoteur } from '../engine'
@@ -170,22 +170,37 @@ function Sauvegardes() {
 }
 
 export function Reglages() {
-  const [exemple, setExemple] = useState(false)
+  const [etat, setEtat] = useState<'aucun' | 'confirmer' | 'fait'>('aucun')
   return (
     <>
       <Entete titre="Réglages" />
       <Seuils />
       <Sauvegardes />
       <section className="section">
-        <h2>Programme d’exemple</h2>
-        <p className="discret">Ajoute 5 exercices à Push et 5 à Pull, que tu pourras modifier ensuite.</p>
-        <button
-          className="bouton"
-          disabled={exemple}
-          onClick={() => void creerExemple(depot).then(() => setExemple(true))}
-        >
-          {exemple ? 'Exemple ajouté' : 'Ajouter l’exemple'}
-        </button>
+        <h2>Mon programme Hevy</h2>
+        <p className="discret">
+          Remet tes 7 exercices Push et tes 7 exercices Pull dans les programmes. Un exercice qui a déjà un historique
+          garde ses réglages et ses séances.
+        </p>
+        {etat === 'aucun' && (
+          <button className="bouton" onClick={() => setEtat('confirmer')}>
+            Recharger mon programme
+          </button>
+        )}
+        {etat === 'confirmer' && (
+          <div className="rangee-boutons">
+            <button className="bouton" onClick={() => setEtat('aucun')}>
+              Annuler
+            </button>
+            <button
+              className="bouton principal"
+              onClick={() => void chargerMonProgramme(depot).then(() => setEtat('fait'))}
+            >
+              Remplacer Push et Pull
+            </button>
+          </div>
+        )}
+        {etat === 'fait' && <p role="status">Programme rechargé.</p>}
       </section>
     </>
   )

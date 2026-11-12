@@ -10,6 +10,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { registerSW } from 'virtual:pwa-register'
 import App from './App'
+import { chargerMonProgrammeSiNouveau } from './db/mon-programme'
 import { depot } from './donnees'
 
 // Le service worker rend l'app utilisable hors ligne. Il ne fonctionne pas
@@ -23,6 +24,7 @@ const racine = createRoot(document.getElementById('root')!)
 
 depot
   .initialiser()
+  .then(() => chargerMonProgrammeSiNouveau(depot))
   .then(() => {
     racine.render(
       <StrictMode>
