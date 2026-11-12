@@ -1,0 +1,700 @@
+/*
+ * Palette « salle de muscu » : craie (fond), fonte (texte), et les couleurs
+ * des disques olympiques, utilisées pour leur sens :
+ *   bleu 20 kg  → action principale
+ *   vert 10 kg  → série validée
+ *   jaune 15 kg → hausse de charge
+ *   rouge 25 kg → objectif manqué, action destructive
+ */
+:root {
+  --craie: #e9ecea;
+  --craie-2: #dde2df;
+  --carte: #f6f7f6;
+  --fonte: #1c2326;
+  --fonte-2: #4a5559;
+  --trait: #c3cac7;
+  --bleu: #1f5fbf;
+  --bleu-texte: #ffffff;
+  --vert: #2e7d4f;
+  --vert-fond: #d6eadd;
+  --jaune: #e3b505;
+  --rouge: #b8372b;
+
+  --display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --texte: 'Barlow', system-ui, sans-serif;
+
+  --t-xs: 0.8125rem;
+  --t-s: 0.9375rem;
+  --t-m: 1rem;
+  --t-l: 1.25rem;
+  --t-xl: 1.625rem;
+  --t-xxl: 2.25rem;
+
+  --rayon: 10px;
+  --barre: calc(60px + env(safe-area-inset-bottom));
+
+  color-scheme: light dark;
+  font-family: var(--texte);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--fonte);
+  background: var(--craie);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --craie: #1c2326;
+    --craie-2: #263035;
+    --carte: #222b2f;
+    --fonte: #e9ecea;
+    --fonte-2: #9aa6a9;
+    --trait: #36434a;
+    --bleu: #5b8fe0;
+    --bleu-texte: #0f1a2b;
+    --vert: #5cbf86;
+    --vert-fond: #1f3a2b;
+    --jaune: #f0c93a;
+    --rouge: #e0675c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--bleu);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- Structure ---------- */
+
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px calc(var(--barre) + 24px);
+}
+
+.onglets {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: var(--barre);
+  padding-bottom: env(safe-area-inset-bottom);
+  display: flex;
+  justify-content: center;
+  background: var(--carte);
+  border-top: 1px solid var(--trait);
+  z-index: 10;
+}
+
+.onglets button {
+  flex: 1;
+  max-width: 112px;
+  border: 0;
+  background: none;
+  font-size: var(--t-xs);
+  font-weight: 500;
+  color: var(--fonte-2);
+  padding: 8px 2px;
+}
+
+.onglets button[aria-current='page'] {
+  color: var(--fonte);
+  font-weight: 600;
+  box-shadow: inset 0 3px 0 var(--bleu);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: var(--t-xxl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: var(--t-l);
+}
+
+h3 {
+  font-size: var(--t-m);
+}
+
+.entete {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+
+.discret {
+  color: var(--fonte-2);
+  font-size: var(--t-s);
+}
+
+.pile > * + * {
+  margin-top: 12px;
+}
+
+.vide {
+  padding: 24px 0;
+  color: var(--fonte-2);
+}
+
+.vide p {
+  margin: 0 0 16px;
+}
+
+/* ---------- Boutons ---------- */
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: var(--rayon);
+  border: 1px solid var(--trait);
+  background: var(--carte);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bouton.principal {
+  background: var(--bleu);
+  border-color: var(--bleu);
+  color: var(--bleu-texte);
+}
+
+.bouton.danger {
+  color: var(--rouge);
+  border-color: var(--rouge);
+  background: transparent;
+}
+
+.bouton.large {
+  width: 100%;
+}
+
+.bouton.petit {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: var(--t-s);
+}
+
+.lien {
+  border: 0;
+  background: none;
+  padding: 8px 0;
+  color: var(--bleu);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lien.danger {
+  color: var(--rouge);
+}
+
+.rangee-boutons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Programmes (accueil) ---------- */
+
+.programme {
+  background: var(--carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  padding: 16px;
+}
+
+.programme.suivant {
+  border: 2px solid var(--bleu);
+}
+
+.programme .titre {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.programme .nom {
+  font-family: var(--display);
+  font-size: var(--t-xxl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.apercu {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.apercu li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--trait);
+  font-size: var(--t-s);
+}
+
+.apercu li:first-child {
+  border-top: 0;
+}
+
+.apercu .cible {
+  font-family: var(--display);
+  font-size: var(--t-l);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Séance ---------- */
+
+.exercice {
+  position: relative;
+  padding: 16px 0 16px 18px;
+  border-top: 1px solid var(--trait);
+}
+
+/* Tranche colorée comme le bord d'un disque : le type de décision. */
+.exercice::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 6px;
+  border-radius: 3px;
+  background: var(--trait);
+}
+
+.exercice[data-decision='hausse']::before {
+  background: var(--jaune);
+}
+
+.exercice[data-decision='maintien']::before {
+  background: var(--bleu);
+}
+
+.objectif {
+  font-family: var(--display);
+  font-size: var(--t-xxl);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 4px 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.objectif small {
+  font-size: var(--t-l);
+  font-weight: 500;
+  color: var(--fonte-2);
+}
+
+.explication {
+  margin: 0 0 12px;
+  font-size: var(--t-s);
+  color: var(--fonte-2);
+  max-width: 60ch;
+}
+
+.serie {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.25fr) 64px 48px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.serie .numero {
+  font-family: var(--display);
+  font-size: var(--t-l);
+  font-weight: 600;
+  color: var(--fonte-2);
+  text-align: center;
+}
+
+.serie.faite {
+  background: var(--vert-fond);
+  border-radius: var(--rayon);
+}
+
+.serie.faite .numero {
+  color: var(--vert);
+}
+
+.champ {
+  position: relative;
+}
+
+.champ input,
+.champ select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  background: var(--carte);
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.champ select {
+  font-size: 1.125rem;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.champ .unite {
+  position: absolute;
+  right: 6px;
+  bottom: 3px;
+  font-size: 0.6875rem;
+  color: var(--fonte-2);
+  pointer-events: none;
+}
+
+.reps {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 30px;
+  align-items: center;
+}
+
+.reps .unite {
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  text-align: center;
+  font-size: 0.625rem;
+}
+
+.reps button {
+  height: 48px;
+  border: 0;
+  background: none;
+  font-size: var(--t-xl);
+  font-weight: 500;
+  color: var(--fonte-2);
+  cursor: pointer;
+}
+
+.valider {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--vert);
+  background: transparent;
+  color: var(--vert);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.serie.faite .valider {
+  background: var(--vert);
+  color: var(--carte);
+}
+
+.serie .ecart {
+  grid-column: 2 / -1;
+  font-size: var(--t-xs);
+  color: var(--rouge);
+  margin-top: -2px;
+}
+
+.actions-exercice {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.barre-seance {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.barre-seance .bouton {
+  flex: 1;
+}
+
+/* ---------- Formulaires ---------- */
+
+.formulaire label,
+.formulaire fieldset {
+  display: block;
+  margin: 0 0 16px;
+}
+
+.formulaire fieldset {
+  border: 0;
+  padding: 0;
+}
+
+.formulaire .etiquette,
+.formulaire legend {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.formulaire .aide {
+  display: block;
+  font-size: var(--t-xs);
+  color: var(--fonte-2);
+  margin-top: 4px;
+}
+
+.formulaire input[type='text'],
+.formulaire input[type='number'],
+.formulaire input:not([type]),
+.formulaire select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  background: var(--carte);
+  padding: 0 12px;
+  font-size: 1rem;
+}
+
+.deux-colonnes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.segments {
+  display: flex;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.segments button {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  background: var(--carte);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.segments button + button {
+  border-left: 1px solid var(--trait);
+}
+
+.segments button[aria-pressed='true'] {
+  background: var(--fonte);
+  color: var(--craie);
+  font-weight: 600;
+}
+
+.puces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.puces button {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  border: 1px solid var(--trait);
+  background: var(--carte);
+  font-size: var(--t-s);
+  cursor: pointer;
+}
+
+.puces button[aria-pressed='true'] {
+  background: var(--fonte);
+  color: var(--craie);
+  border-color: var(--fonte);
+}
+
+.puces button:disabled {
+  opacity: 0.35;
+}
+
+.erreur {
+  color: var(--rouge);
+  font-size: var(--t-s);
+  margin: 0 0 12px;
+}
+
+/* ---------- Listes ---------- */
+
+.liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.liste > li {
+  border-top: 1px solid var(--trait);
+}
+
+.liste > li:last-child {
+  border-bottom: 1px solid var(--trait);
+}
+
+.ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ligne .principal {
+  font-weight: 600;
+}
+
+.ligne-programme {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.compteur {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+}
+
+.compteur button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  font-size: var(--t-l);
+  cursor: pointer;
+}
+
+.compteur span {
+  min-width: 52px;
+  text-align: center;
+  font-size: var(--t-s);
+}
+
+.icone {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-size: var(--t-l);
+  color: var(--fonte-2);
+  cursor: pointer;
+}
+
+.icone:disabled {
+  opacity: 0.3;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section > h2 {
+  margin-bottom: 12px;
+}
+
+/* ---------- Progrès ---------- */
+
+.graphique {
+  height: 240px;
+  margin: 12px -8px 8px -16px;
+}
+
+.decision {
+  padding: 12px 0;
+}
+
+.decision .quand {
+  font-size: var(--t-xs);
+  color: var(--fonte-2);
+}
+
+.decision p {
+  margin: 2px 0 0;
+  font-size: var(--t-s);
+}
+
+.chiffres {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.chiffres div {
+  display: flex;
+  flex-direction: column;
+}
+
+.chiffres strong {
+  font-family: var(--display);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.chiffres span {
+  font-size: var(--t-xs);
+  color: var(--fonte-2);
+}
+
+details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 12px 0;
+}
